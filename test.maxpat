@@ -78,8 +78,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 18.0, 12.0, 133.0, 22.0 ],
-					"text" : "url http://localhost:3000"
+					"patching_rect" : [ 18.0, 12.0, 246.0, 22.0 ],
+					"text" : "url https://ch-refresh-prototype.onrender.com"
 				}
 
 			}
@@ -93,7 +93,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 18.0, 120.0, 526.0, 522.0 ],
 					"rendermode" : 0,
-					"url" : "http://localhost:3000"
+					"url" : "https://ch-refresh-prototype.onrender.com"
 				}
 
 			}
