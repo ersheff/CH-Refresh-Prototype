@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/socket.io/socket.io.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <title>Document</title>
+</head>
+
+<body style="background-color: white;">
+
+  <div x-data="{
+    setUsername(username) {
+      setUsername(username)
+    },
+    toggleFeed(username) {
+      toggleFeed(username)
+    },
+    toggleRoom(room) {
+      toggleRoom(room);
+    },
+    createRoom(room) {
+      createRoom(room);
+    },
+    deleteRoom(room) {
+      deleteRoom(room);
+    },
+    chat(msg) {
+      chat(msg);
+    },
+    sendToServer(msg) {
+      sendToServer(msg);
+    },
+    textToOsc(text) {
+      const firstSpaceIndex = text.indexOf(' ');
+      if (firstSpaceIndex === -1) {
+        const msg = { address: text, args: [] };
+        sendToServer(msg);
+        return;
+      }
+      const address = text.substring(0, firstSpaceIndex);
+      const argsString = text.substring(firstSpaceIndex + 1);
+      const args = argsString.split(' ').map(item => {
+        const num = Number(item);
+        return isNaN(item) ? item : num;
+      });
+      const msg = { address, args };
+      sendToServer(msg);
+    }
+  }">
+    <div x-show="window.electronAPI">
+      <h2>OSC Ports</h2>
+      <span x-text="`Send: ${searchParams.get('send')}`"></span>
+      <span x-text="`Receive: ${searchParams.get('receive')}`"></span>
+    </div>
+
+    <h2>Users</h2>
+    <label for="username">Username:</label>
+    <input type="text" name="username" :placeholder="$store.ch.username"
+      @change="setUsername($el.value); $el.value = ''">
+    <div>
+      <ul>
+        <template x-for="username in $store.ch.users" :key="username">
+          <li x-show="$store.ch.username !== username">
+            <input type="checkbox" @click.prevent="toggleFeed(username)"
+              :checked="$store.ch.myFeeds.includes(username)">
+            <span x-text="username"></span>
+          </li>
+        </template>
+      </ul>
+    </div>
+
+    <hr>
+
+    <h2>Rooms</h2>
+    <div>
+      <input type="text" placeholder="create new room" @change="createRoom($el.value); $el.value = ''">
+      <ul>
+        <template x-for="room in $store.ch.rooms" :key="room">
+          <li>
+            <input type="checkbox" @click.prevent="toggleRoom(room)" :checked="$store.ch.myRooms.includes(room)">
+            <span x-text="room"></span>
+            <button @click="deleteRoom(room)">X</button>
+          </li>
+        </template>
+      </ul>
+    </div>
+
+    <hr>
+
+    <style>
+      #chat div {
+        padding: 4px 8px;
+
+        &:nth-child(odd) {
+          background-color: #eee;
+        }
+      }
+    </style>
+
+    <h2>Chat</h2>
+    <div id="chat" style="height: 8rem; width: 40ch; border: 1px solid black; overflow: scroll;"></div>
+    <input type="text" placeholder="enter chat message" @change="chat($el.value); $el.value = ''">
+
+    <hr>
+
+    <h2>Message</h2>
+    <input type="text" placeholder="/OSC/format" @change="textToOsc($el.value); $el.value = ''">
+
+    <div x-data="{
+      buttonsArray: [],
+      slidersArray: [],
+      togglesArray: [],
+      sendToServer(msg) {
+        sendToServer(msg)
+      },
+      init() {
+        const paramsString = window.location.search;
+        const searchParams = new URLSearchParams(paramsString);
+        const buttonsQuery = searchParams.get('buttons') || 0;
+        for (let i = 0; i < buttonsQuery; i++) {
+          this.buttonsArray.push(`button${i+1}`);
+        }
+        const slidersQuery = searchParams.get('sliders') || 0;
+        for (let i = 0; i < slidersQuery; i++) {
+          this.slidersArray.push(`slider${i+1}`);
+        }
+        const togglesQuery = searchParams.get('toggles') || 0;
+        for (let i = 0; i < togglesQuery; i++) {
+          this.togglesArray.push(`toggle${i+1}`);
+        }
+      }
+    }">
+      <div x-show="buttonsArray.length || slidersArray.length || togglesArray.length">
+
+        <hr>
+
+        <h2>Controls</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <template x-for="button in buttonsArray" :key="button">
+              <div x-data="{ address: `/broadcast/${button}` }" style="display: flex; flex-direction: column;">
+                <input type="text" :placeholder="address" @change="address = $el.value; $el.value = ''">
+                <button @click="sendToServer({ address, args: []})">X</button>
+              </div>
+            </template>
+          </div>
+          <div>
+            <template x-for="slider in slidersArray" :key="slider">
+              <div x-data="{ address: `/broadcast/${slider}` }" style="display: flex; flex-direction: column;">
+                <input type="text" :placeholder="address" @change="address = $el.value; $el.value = ''">
+                <input type="range" @input="sendToServer({ address, args: [$el.value]})">
+              </div>
+            </template>
+          </div>
+          <div>
+            <template x-for="toggle in togglesArray" :key="toggle">
+              <div x-data="{ address: `/broadcast/${toggle}` }" style="display: flex; flex-direction: column;">
+                <input type="text" :placeholder="address" @change="address = $el.value; $el.value = ''">
+                <input type="checkbox" @change="sendToServer({ address, args: [$el.checked]})">
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+      document.addEventListener('alpine:init', () => {
+        Alpine.store('ch', {
+          username: '',
+          users: [],
+          rooms: [],
+          myFeeds: [],
+          myRooms: []
+        });
+      });
+
+      //
+
+      const query = {};
+      const paramsString = window.location.search;
+      const searchParams = new URLSearchParams(paramsString);
+      const usernameQuery = searchParams.get("username");
+      const roomsQuery = searchParams.get("rooms");
+
+      if (usernameQuery) query.username = usernameQuery;
+      if (roomsQuery) query.rooms = roomsQuery;
+
+      const socket = io({
+        query
+      });
+
+      socket.on('connect', () => {});
+
+      socket.on('init', data => {
+        Alpine.store('ch').username = data.username;
+        Alpine.store('ch').users = data.users;
+        Alpine.store('ch').rooms = data.rooms;
+        Alpine.store('ch').myRooms = data.myRooms;
+      });
+
+      socket.on('msg', msg => {
+        if (window.max) {
+          window.max.outlet(msg.address, ...msg.args);
+        } else if (window.electronAPI) {
+          window.electronAPI.onSocketMessage(msg);
+        } else console.log(msg); // web GUI
+      });
+
+      socket.on('chat', incoming => {
+        const userEl = document.createElement('span');
+        userEl.textContent = `${incoming.username}: `;
+        userEl.style.setProperty('font-weight', 'bold');
+        const msgEl = document.createElement('span');
+        msgEl.textContent = incoming.msg;
+        const msgContainer = document.createElement('div');
+        msgContainer.appendChild(userEl);
+        msgContainer.appendChild(msgEl);
+        const chat = document.getElementById('chat');
+        chat.appendChild(msgContainer);
+        chat.scrollTo({
+          top: chat.scrollHeight,
+          behavior: 'smooth'
+        });
+      });
+
+      socket.on('confirm-username', username => {
+        Alpine.store('ch').username = username;
+      });
+
+      socket.on('user-list', users => {
+        Alpine.store('ch').users = users;
+      });
+
+      socket.on('room-list', rooms => {
+        Alpine.store('ch').rooms = rooms;
+      });
+
+      socket.on('my-feeds', feeds => {
+        Alpine.store('ch').myFeeds = feeds;
+      });
+
+      socket.on('my-rooms', rooms => {
+        Alpine.store('ch').myRooms = rooms;
+      });
+
+      socket.on('connect_error', (error) => {
+        alert(`Error: ${error.message}`);
+      });
+
+      socket.on('disconnect', () => {
+        Alpine.store('ch').username = '';
+        Alpine.store('ch').users = [];
+        Alpine.store('ch').rooms = [];
+        Alpine.store('ch').myFeeds = [];
+        Alpine.store('ch').myRooms = [];
+      });
+
+      function setUsername(username) {
+        socket.emit('set-username', username);
+      }
+
+      function toggleFeed(username) {
+        socket.emit('toggle-feed', username);
+      }
+
+      function toggleRoom(room) {
+        socket.emit('toggle-room', room);
+      }
+
+      function createRoom(room) {
+        socket.emit('create-room', room);
+      }
+
+      function deleteRoom(room) {
+        if (confirm(`Are you sure you want to force delete "${room}" room?`)) {
+          socket.emit('delete-room', room);
+        }
+      }
+
+      function chat(msg) {
+        socket.emit('chat', msg);
+      }
+
+      function sendToServer(msg) {
+        if (!msg.address.startsWith('/broadcast') &&
+          !msg.address.startsWith('/feed') &&
+          !msg.address.startsWith('/room') &&
+          !msg.address.startsWith('/user')) {
+          return;
+        }
+        socket.emit('msg', msg);
+      }
+
+      if (window.max) {
+        window.max.bindInlet('ch', (...list) => {
+          const msg = {
+            address: list[0],
+            args: list.slice(1)
+          }
+          sendToServer(msg);
+        });
+      } else if (window.electronAPI) {
+        window.electronAPI.onOscMessage(msg => {
+          sendToServer(msg);
+        });
+      }
+    </script>
+</body>
+
+</html>

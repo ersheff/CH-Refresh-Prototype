@@ -1,0 +1,20 @@
+{
+  "name": "ch-refresh-prototype",
+  "version": "0.0.4",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "node server.mjs",
+    "electron": "electron .",
+    "dev": "concurrently \"npm run start\" \"npm run electron\""
+  },
+  "author": "Eric Sheffield",
+  "license": "TBD",
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "electron": "^37.2.4"
+  },
+  "dependencies": {
+    "osc": "^2.4.5",
+    "socket.io": "^4.8.1"
+  }
+}
