@@ -9,6 +9,12 @@
   <title>Document</title>
 </head>
 
+<style>
+  * {
+    box-sizing: border-box;
+  }
+</style>
+
 <body style="background-color: white;">
 
   <div x-data="{
@@ -56,42 +62,46 @@
       <span x-text="`Receive: ${searchParams.get('receive')}`"></span>
     </div>
 
-    <h2>Users</h2>
-    <label for="username">Username:</label>
-    <input type="text" name="username" :placeholder="$store.ch.username"
-      @change="setUsername($el.value); $el.value = ''">
-    <div>
-      <ul>
-        <template x-for="username in $store.ch.users" :key="username">
-          <li x-show="$store.ch.username !== username">
-            <input type="checkbox" @click.prevent="toggleFeed(username)"
-              :checked="$store.ch.myFeeds.includes(username)">
-            <span x-text="username"></span>
-          </li>
-        </template>
-      </ul>
+    <div style="display: flex; gap: 20px;">
+      <div style="width: 100%; max-width: 40ch;">
+        <h2>Users</h2>
+        <div style="height: 8rem; border: 1px solid black; overflow: scroll;">
+          <ul>
+            <template x-for="username in $store.ch.users" :key="username">
+              <li x-show="$store.ch.username !== username">
+                <input type="checkbox" @click.prevent="toggleFeed(username)"
+                  :checked="$store.ch.myFeeds.includes(username)">
+                <span x-text="username"></span>
+              </li>
+            </template>
+          </ul>
+        </div>
+        <label for="username-input">Set username:</label>
+        <input type="text" name="username-input" :placeholder="$store.ch.username"
+          @change="setUsername($el.value); $el.value = ''">
+      </div>
+
+      <div style="width: 100%; max-width: 40ch;">
+        <h2>Rooms</h2>
+        <div style="height: 8rem; border: 1px solid black; overflow: scroll;">
+          <ul>
+            <template x-for="room in $store.ch.rooms" :key="room">
+              <li>
+                <input type="checkbox" @click.prevent="toggleRoom(room)" :checked="$store.ch.myRooms.includes(room)">
+                <span x-text="room"></span>
+                <button @click="deleteRoom(room)">X</button>
+              </li>
+            </template>
+          </ul>
+        </div>
+        <label for="room-input">Create new room:</label>
+        <input type="text" name="room-input" @change="createRoom($el.value); $el.value = ''">
+      </div>
     </div>
-
-    <hr>
-
-    <h2>Rooms</h2>
-    <div>
-      <input type="text" placeholder="create new room" @change="createRoom($el.value); $el.value = ''">
-      <ul>
-        <template x-for="room in $store.ch.rooms" :key="room">
-          <li>
-            <input type="checkbox" @click.prevent="toggleRoom(room)" :checked="$store.ch.myRooms.includes(room)">
-            <span x-text="room"></span>
-            <button @click="deleteRoom(room)">X</button>
-          </li>
-        </template>
-      </ul>
-    </div>
-
-    <hr>
 
     <style>
-      #chat div {
+      #chat-display div,
+      #data-display div {
         padding: 4px 8px;
 
         &:nth-child(odd) {
@@ -100,14 +110,28 @@
       }
     </style>
 
-    <h2>Chat</h2>
-    <div id="chat" style="height: 8rem; width: 40ch; border: 1px solid black; overflow: scroll;"></div>
-    <input type="text" placeholder="enter chat message" @change="chat($el.value); $el.value = ''">
+    <div style="display: flex; gap: 20px;">
+      <div style="width: 100%; max-width: 40ch;">
+        <h2>Chat</h2>
+        <div id="chat-display" style="height: 8rem; border: 1px solid black; overflow: scroll;">
+        </div>
+        <label for="chat-input">Send chat:</label>
+        <input type="text" name="chat-input" @change="chat($el.value); $el.value = ''">
+      </div>
 
-    <hr>
-
-    <h2>Message</h2>
-    <input type="text" placeholder="/OSC/format" @change="textToOsc($el.value); $el.value = ''">
+      <div style="width: 100%; max-width: 40ch; ">
+        <h2>Data</h2>
+        <div id="data-display" style="height: 8rem; border: 1px solid black; overflow: scroll;">
+          <div x-show="$store.ch.dataFeed.length >= 10">...displaying 10 recent items</div>
+          <template x-for="(data, index) in $store.ch.dataFeed" :key="index">
+            <div x-text="data"></div>
+          </template>
+        </div>
+        <label for="data-input">Send data:</label>
+        <input type="text" name="data-input" placeholder="/broadcast/testing 1 2 3"
+          @change="textToOsc($el.value); $el.value = ''">
+      </div>
+    </div>
 
     <div x-data="{
       buttonsArray: [],
@@ -151,7 +175,7 @@
             <template x-for="slider in slidersArray" :key="slider">
               <div x-data="{ address: `/broadcast/${slider}` }" style="display: flex; flex-direction: column;">
                 <input type="text" :placeholder="address" @change="address = $el.value; $el.value = ''">
-                <input type="range" @input="sendToServer({ address, args: [$el.value]})">
+                <input type="range" @input="sendToServer({ address, args: [Number($el.value)]})">
               </div>
             </template>
           </div>
@@ -159,7 +183,7 @@
             <template x-for="toggle in togglesArray" :key="toggle">
               <div x-data="{ address: `/broadcast/${toggle}` }" style="display: flex; flex-direction: column;">
                 <input type="text" :placeholder="address" @change="address = $el.value; $el.value = ''">
-                <input type="checkbox" @change="sendToServer({ address, args: [$el.checked]})">
+                <input type="checkbox" @change="sendToServer({ address, args: [$el.checked ? 1 : 0]})">
               </div>
             </template>
           </div>
@@ -175,7 +199,8 @@
           users: [],
           rooms: [],
           myFeeds: [],
-          myRooms: []
+          myRooms: [],
+          dataFeed: []
         });
       });
 
@@ -204,11 +229,12 @@
       });
 
       socket.on('msg', msg => {
+        dataFeed(msg);
         if (window.max) {
           window.max.outlet(msg.address, ...msg.args);
         } else if (window.electronAPI) {
           window.electronAPI.onSocketMessage(msg);
-        } else console.log(msg); // web GUI
+        }
       });
 
       socket.on('chat', incoming => {
@@ -220,10 +246,10 @@
         const msgContainer = document.createElement('div');
         msgContainer.appendChild(userEl);
         msgContainer.appendChild(msgEl);
-        const chat = document.getElementById('chat');
-        chat.appendChild(msgContainer);
-        chat.scrollTo({
-          top: chat.scrollHeight,
+        const chatDisplay = document.getElementById('chat-display');
+        chatDisplay.appendChild(msgContainer);
+        chatDisplay.scrollTo({
+          top: chatDisplay.scrollHeight,
           behavior: 'smooth'
         });
       });
@@ -294,6 +320,14 @@
           return;
         }
         socket.emit('msg', msg);
+      }
+
+      function dataFeed(msg) {
+        const data = `${msg.address} ${msg.args.join(' ')}`;
+        Alpine.store('ch').dataFeed.push(data);
+        if (Alpine.store('ch').dataFeed.length > 10) {
+          Alpine.store('ch').dataFeed.shift();
+        }
       }
 
       if (window.max) {

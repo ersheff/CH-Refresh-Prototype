@@ -10,17 +10,63 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 96.0, 66.0, 592.0, 752.0 ],
+		"rect" : [ 96.0, 66.0, 797.0, 751.0 ],
 		"gridsize" : [ 15.0, 15.0 ],
 		"boxes" : [ 			{
+				"box" : 				{
+					"bubble" : 1,
+					"id" : "obj-16",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 571.0, 662.0, 40.0, 24.0 ],
+					"text" : "list"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bubble" : 1,
+					"id" : "obj-15",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 260.0, 662.0, 67.0, 24.0 ],
+					"text" : "raw osc"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-14",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 18.0, 663.0, 240.0, 22.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-13",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 329.0, 663.0, 240.0, 22.0 ]
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"bubble" : 1,
 					"id" : "obj-2",
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 159.0, 664.0, 255.0, 24.0 ],
-					"text" : "converts osc address to routable list format"
+					"patching_rect" : [ 464.0, 624.0, 218.0, 24.0 ],
+					"text" : "converts osc address to routable list"
 				}
 
 			}
@@ -31,19 +77,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 5,
 					"outlettype" : [ "", "", "", "", "" ],
-					"patching_rect" : [ 18.0, 665.0, 134.0, 22.0 ],
+					"patching_rect" : [ 329.0, 625.0, 134.0, 22.0 ],
 					"text" : "regexp / @substitute \" \""
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-9",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 18.0, 702.0, 107.0, 22.0 ],
-					"text" : "print ch @popup 1"
 				}
 
 			}
@@ -91,7 +126,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 18.0, 120.0, 526.0, 522.0 ],
+					"patching_rect" : [ 18.0, 120.0, 600.0, 480.0 ],
 					"rendermode" : 0,
 					"url" : "https://ch-refresh-prototype.onrender.com"
 				}
@@ -100,14 +135,23 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
-					"destination" : [ "obj-24", 0 ],
+					"destination" : [ "obj-14", 1 ],
+					"order" : 1,
 					"source" : [ "obj-1", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-9", 0 ],
+					"destination" : [ "obj-24", 0 ],
+					"order" : 0,
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-13", 1 ],
 					"source" : [ "obj-24", 0 ]
 				}
 

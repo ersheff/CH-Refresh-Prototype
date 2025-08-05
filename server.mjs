@@ -158,15 +158,15 @@ function handleMsg(socket, msg) {
   const suffix = remainder ? `/${remainder}` : '';
   switch (type) {
     case 'broadcast':
-      msg.address = `/user/${username}${suffix}`;
+      msg.address = `/broadcast/${username}${suffix}`;
       socket.broadcast.emit('msg', msg); // broadcast to everyone else
       break;
     case 'feed':
-      msg.address = `/user/${username}${suffix}`;
+      msg.address = `/feed/${username}${suffix}`;
       socket.to(`feed:${socket.id}`).emit('msg', msg); // broadcast to feed
       break;
     case 'room':
-      msg.address = `/room/${target}${suffix}`;
+      msg.address = `/room/${target}/${username}${suffix}`;
       socket.to(target).emit('msg', msg); // broadcast to room
       break;
     case 'user':

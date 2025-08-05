@@ -107,7 +107,7 @@ function createWindow() {
   const url = `${address}?${queryParams.toString()}`;
 
   const mainWindow = new BrowserWindow({
-    width: 800,
+    width: 660,
     height: 600,
     webPreferences: {
       nodeIntegration: false,

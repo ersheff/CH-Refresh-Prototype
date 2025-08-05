@@ -4,15 +4,15 @@
 #X obj 46 190 loadbang;
 #X obj 31 372 oscparse;
 #X obj 31 402 list split;
-#X listbox 31 442 20 0 0 0 - - - 0;
-#X listbox 175 442 20 0 0 0 - - - 0;
+#X listbox 31 442 30 0 0 0 - - - 0;
+#X listbox 246 442 20 0 0 0 - - - 0;
 #X msg 46 214 connect localhost 9990;
 #X obj 31 339 netreceive -u -b 9991;
 #X text 82 114 <- click to test outgoing messages;
-#X text 323 441 <- incoming messages should appear here;
 #X text 28 33 OSC ports can optionally be changed in the Config menu of the CH Bridge app.;
 #X msg 31 115 1 2 3;
 #X obj 31 161 oscformat broadcast testing;
+#X text 394 441 <- incoming messages;
 #X connect 0 0 1 0;
 #X connect 2 0 7 0;
 #X connect 3 0 4 0;
@@ -21,5 +21,5 @@
 #X connect 4 1 6 0;
 #X connect 7 0 1 0;
 #X connect 8 0 3 0;
-#X connect 12 0 13 0;
-#X connect 13 0 1 0;
+#X connect 11 0 12 0;
+#X connect 12 0 1 0;
