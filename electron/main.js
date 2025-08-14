@@ -64,7 +64,7 @@ send=9990
 receive=9991
 
 # Server and UI
-address=https://ch-refresh-prototype.onrender.com
+address=https://ch-refresh-prototype-production.up.railway.app
 username=
 rooms=
 buttons=0
@@ -107,8 +107,8 @@ function createWindow() {
   const url = `${address}?${queryParams.toString()}`;
 
   const mainWindow = new BrowserWindow({
-    width: 660,
-    height: 600,
+    width: 680,
+    height: 760,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,

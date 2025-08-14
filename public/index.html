@@ -12,10 +12,158 @@
 <style>
   * {
     box-sizing: border-box;
+    font-family: sans-serif;
+    color: #141414;
+  }
+
+  body {
+    background-color: #fff;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 4px 8px;
+    margin: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+
+  .panel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 20px;
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    h2 {
+      margin: 0;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+
+      input {
+        flex: 1;
+        padding: 4px;
+      }
+    }
+
+    .scroll-window {
+      height: 8rem;
+      border: 1px solid #8f8f9c;
+      overflow: scroll;
+
+      button {
+        border: none;
+        background-color: #ffaaaa;
+        border-radius: 50%;
+        padding: 1px 4px;
+        text-align: center;
+        font-weight: bold;
+
+        &:hover {
+          background-color: #ffcccc;
+        }
+      }
+    }
+
+  }
+
+  .window-panel {
+    grid-column: 1/3;
+  }
+
+  #chat-display div,
+  #data-display div {
+    padding: 4px 8px;
+
+    &:nth-child(odd) {
+      background-color: #eee;
+    }
+  }
+
+  .controls-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .controls-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+  }
+
+  .control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 60px;
+
+    input[type="text"] {
+      padding: 4px;
+    }
+
+    button {
+      width: 40px;
+      height: 20px;
+      margin: 2px;
+      font-weight: bold;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .panel-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .window-panel {
+      grid-column: 1;
+    }
+
+    .panel {
+      .input-row {
+        flex-direction: column;
+        align-items: flex-start;
+
+        input {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 678px) {
+    .panel:not(.window-panel) {
+      .input-row {
+        flex-direction: column;
+        align-items: flex-start;
+
+        input {
+          width: 100%;
+        }
+      }
+    }
   }
 </style>
 
-<body style="background-color: white;">
+<body>
 
   <div x-data="{
     setUsername(username) {
@@ -56,16 +204,11 @@
       sendToServer(msg);
     }
   }">
-    <div x-show="window.electronAPI">
-      <h2>OSC Ports</h2>
-      <span x-text="`Send: ${searchParams.get('send')}`"></span>
-      <span x-text="`Receive: ${searchParams.get('receive')}`"></span>
-    </div>
 
-    <div style="display: flex; gap: 20px;">
-      <div style="width: 100%; max-width: 40ch;">
+    <div class="panel-grid">
+      <div class="panel">
         <h2>Users</h2>
-        <div style="height: 8rem; border: 1px solid black; overflow: scroll;">
+        <div class="scroll-window">
           <ul>
             <template x-for="username in $store.ch.users" :key="username">
               <li x-show="$store.ch.username !== username">
@@ -76,62 +219,60 @@
             </template>
           </ul>
         </div>
-        <label for="username-input">Set username:</label>
-        <input type="text" name="username-input" :placeholder="$store.ch.username"
-          @change="setUsername($el.value); $el.value = ''">
+        <div class="input-row">
+          <label for="username-input">Set username:</label>
+          <input type="text" name="username-input" :placeholder="$store.ch.username"
+            @change="setUsername($el.value); $el.value = ''">
+        </div>
       </div>
 
-      <div style="width: 100%; max-width: 40ch;">
+      <div class="panel">
         <h2>Rooms</h2>
-        <div style="height: 8rem; border: 1px solid black; overflow: scroll;">
+        <div class="scroll-window">
           <ul>
             <template x-for="room in $store.ch.rooms" :key="room">
               <li>
                 <input type="checkbox" @click.prevent="toggleRoom(room)" :checked="$store.ch.myRooms.includes(room)">
                 <span x-text="room"></span>
-                <button @click="deleteRoom(room)">X</button>
+                <button @click="deleteRoom(room)">x</button>
               </li>
             </template>
           </ul>
         </div>
-        <label for="room-input">Create new room:</label>
-        <input type="text" name="room-input" @change="createRoom($el.value); $el.value = ''">
-      </div>
-    </div>
-
-    <style>
-      #chat-display div,
-      #data-display div {
-        padding: 4px 8px;
-
-        &:nth-child(odd) {
-          background-color: #eee;
-        }
-      }
-    </style>
-
-    <div style="display: flex; gap: 20px;">
-      <div style="width: 100%; max-width: 40ch;">
-        <h2>Chat</h2>
-        <div id="chat-display" style="height: 8rem; border: 1px solid black; overflow: scroll;">
+        <div class="input-row">
+          <label for="room-input">Create new room:</label>
+          <input type="text" name="room-input" @change="createRoom($el.value); $el.value = ''">
         </div>
-        <label for="chat-input">Send chat:</label>
-        <input type="text" name="chat-input" @change="chat($el.value); $el.value = ''">
       </div>
 
-      <div style="width: 100%; max-width: 40ch; ">
-        <h2>Data</h2>
-        <div id="data-display" style="height: 8rem; border: 1px solid black; overflow: scroll;">
-          <div x-show="$store.ch.dataFeed.length >= 10">...displaying 10 recent items</div>
+
+      <div class="panel window-panel">
+        <h2>Chat</h2>
+        <div class="scroll-window" id="chat-display" style="height: 8rem; border: 1px solid black; overflow: scroll;">
+        </div>
+        <div class="input-row">
+          <label for="chat-input">Send chat:</label>
+          <input type="text" name="chat-input" @change="chat($el.value); $el.value = ''">
+        </div>
+      </div>
+
+      <div class="panel window-panel">
+        <h2>Data Monitor</h2>
+        <div>Latest data messages received (10)</div>
+        <div class="scroll-window" id="data-display">
           <template x-for="(data, index) in $store.ch.dataFeed" :key="index">
             <div x-text="data"></div>
           </template>
         </div>
-        <label for="data-input">Send data:</label>
-        <input type="text" name="data-input" placeholder="/broadcast/testing 1 2 3"
-          @change="textToOsc($el.value); $el.value = ''">
+        <div class="input-row">
+          <label for="data-input">Send data:</label>
+          <input type="text" name="data-input" placeholder="/broadcast/testing 1 2 3"
+            @change="textToOsc($el.value); $el.value = ''">
+        </div>
       </div>
+
     </div>
+
 
     <div x-data="{
       buttonsArray: [],
@@ -158,30 +299,27 @@
       }
     }">
       <div x-show="buttonsArray.length || slidersArray.length || togglesArray.length">
-
-        <hr>
-
-        <h2>Controls</h2>
-        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-          <div style="display: flex; flex-direction: column; gap: 10px;">
+        <h2 style="margin: 40px 0 20px 0;">Controls</h2>
+        <div class="controls-container">
+          <div class="controls-panel">
             <template x-for="button in buttonsArray" :key="button">
-              <div x-data="{ address: `/broadcast/${button}` }" style="display: flex; flex-direction: column;">
+              <div x-data="{ address: `/broadcast/${button}` }" class="control">
                 <input type="text" :placeholder="address" @change="address = $el.value; $el.value = ''">
-                <button @click="sendToServer({ address, args: []})">X</button>
+                <button @click="sendToServer({ address, args: []})"></button>
               </div>
             </template>
           </div>
-          <div>
+          <div class="controls-panel">
             <template x-for="slider in slidersArray" :key="slider">
-              <div x-data="{ address: `/broadcast/${slider}` }" style="display: flex; flex-direction: column;">
+              <div x-data="{ address: `/broadcast/${slider}` }" class="control">
                 <input type="text" :placeholder="address" @change="address = $el.value; $el.value = ''">
                 <input type="range" @input="sendToServer({ address, args: [Number($el.value)]})">
               </div>
             </template>
           </div>
-          <div>
+          <div class="controls-panel">
             <template x-for="toggle in togglesArray" :key="toggle">
-              <div x-data="{ address: `/broadcast/${toggle}` }" style="display: flex; flex-direction: column;">
+              <div x-data="{ address: `/broadcast/${toggle}` }" class="control">
                 <input type="text" :placeholder="address" @change="address = $el.value; $el.value = ''">
                 <input type="checkbox" @change="sendToServer({ address, args: [$el.checked ? 1 : 0]})">
               </div>
@@ -303,7 +441,7 @@
       }
 
       function deleteRoom(room) {
-        if (confirm(`Are you sure you want to force delete "${room}" room?`)) {
+        if (confirm(`Are you sure you want to force delete "${room}" room? There may be other people using it.`)) {
           socket.emit('delete-room', room);
         }
       }
