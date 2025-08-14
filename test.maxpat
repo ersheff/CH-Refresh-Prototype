@@ -15,11 +15,36 @@
 		"boxes" : [ 			{
 				"box" : 				{
 					"bubble" : 1,
+					"id" : "obj-5",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 211.0, 69.0, 162.0, 24.0 ],
+					"presentation_linecount" : 11,
+					"text" : "outgoing message format"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-4",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 11.0, 9.0, 58.0, 22.0 ],
+					"text" : "loadbang"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bubble" : 1,
 					"id" : "obj-16",
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 571.0, 662.0, 40.0, 24.0 ],
+					"patching_rect" : [ 677.0, 681.0, 40.0, 24.0 ],
 					"text" : "list"
 				}
 
@@ -31,7 +56,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 260.0, 662.0, 67.0, 24.0 ],
+					"patching_rect" : [ 253.0, 681.0, 67.0, 24.0 ],
 					"text" : "raw osc"
 				}
 
@@ -43,7 +68,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 18.0, 663.0, 240.0, 22.0 ]
+					"patching_rect" : [ 11.0, 682.0, 240.0, 22.0 ],
+					"text" : "title \"502 Bad Gateway\""
 				}
 
 			}
@@ -54,7 +80,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 329.0, 663.0, 240.0, 22.0 ]
+					"patching_rect" : [ 322.0, 682.0, 353.0, 22.0 ],
+					"text" : "url https: ch-refresh-prototype-production.up.railway.app"
 				}
 
 			}
@@ -65,7 +92,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 464.0, 624.0, 218.0, 24.0 ],
+					"patching_rect" : [ 457.0, 643.0, 218.0, 24.0 ],
 					"text" : "converts osc address to routable list"
 				}
 
@@ -77,7 +104,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 5,
 					"outlettype" : [ "", "", "", "", "" ],
-					"patching_rect" : [ 329.0, 625.0, 134.0, 22.0 ],
+					"patching_rect" : [ 322.0, 644.0, 134.0, 22.0 ],
 					"text" : "regexp / @substitute \" \""
 				}
 
@@ -89,7 +116,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 102.0, 43.0, 133.0, 22.0 ],
+					"patching_rect" : [ 74.0, 70.0, 133.0, 22.0 ],
 					"text" : "/broadcast/testing 1 2 3"
 				}
 
@@ -101,7 +128,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 39.0, 84.0, 69.0, 22.0 ],
+					"patching_rect" : [ 32.0, 103.0, 69.0, 22.0 ],
 					"text" : "prepend ch"
 				}
 
@@ -113,8 +140,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 18.0, 12.0, 246.0, 22.0 ],
-					"text" : "url https://ch-refresh-prototype.onrender.com"
+					"patching_rect" : [ 11.0, 43.0, 309.0, 22.0 ],
+					"text" : "url https://ch-refresh-prototype-production.up.railway.app"
 				}
 
 			}
@@ -126,9 +153,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 18.0, 120.0, 600.0, 480.0 ],
+					"patching_rect" : [ 11.0, 139.0, 600.0, 480.0 ],
 					"rendermode" : 0,
-					"url" : "https://ch-refresh-prototype.onrender.com"
+					"url" : "https://ch-refresh-prototype-production.up.railway.app"
 				}
 
 			}
@@ -160,6 +187,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-1", 0 ],
 					"source" : [ "obj-3", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-3", 0 ],
+					"source" : [ "obj-4", 0 ]
 				}
 
 			}

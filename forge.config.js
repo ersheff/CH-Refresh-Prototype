@@ -5,7 +5,9 @@ module.exports = {
   packagerConfig: {
     asar: true,
     name: 'CH Bridge',
-    executableName: 'ch-bridge'
+    executableName: 'ch-bridge',
+    description:
+      'A standalone bridge app that sends/receives OSC messages with the CH Refresh Prototype server.'
   },
   rebuildConfig: {},
   makers: [
