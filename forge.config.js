@@ -5,9 +5,7 @@ module.exports = {
   packagerConfig: {
     asar: true,
     name: 'CH Bridge',
-    executableName: 'ch-bridge',
-    description:
-      'A standalone bridge app that sends/receives OSC messages with the CH Refresh Prototype server.'
+    executableName: 'ch-bridge'
   },
   rebuildConfig: {},
   makers: [
@@ -21,11 +19,25 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {}
+      config: {
+        options: {
+          maintainer: 'Eric Sheffield',
+          homepage: 'https://github.com/ersheff/CH-Refresh-Prototype',
+          description:
+            'A standalone bridge app that sends/receives OSC messages with the CH Refresh Prototype server.'
+        }
+      }
     },
     {
       name: '@electron-forge/maker-rpm',
-      config: {}
+      config: {
+        options: {
+          maintainer: 'Eric Sheffield',
+          homepage: 'https://github.com/ersheff/CH-Refresh-Prototype',
+          description:
+            'A standalone bridge app that sends/receives OSC messages with the CH Refresh Prototype server.'
+        }
+      }
     }
   ],
   plugins: [

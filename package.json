@@ -3,8 +3,9 @@
   "version": "0.0.4",
   "main": "electron/main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "node server.mjs",
     "electron": "electron .",
+    "forge": "electron-forge start",
     "dev": "concurrently \"npm run start\" \"npm run electron\"",
     "package": "electron-forge package",
     "make": "electron-forge make"
