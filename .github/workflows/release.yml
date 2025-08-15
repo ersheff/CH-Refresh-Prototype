@@ -17,10 +17,16 @@ jobs:
         include:
           - os: macos-latest
             platform: darwin
+            arch: arm64
+          - os: macos-latest
+            platform: darwin
+            arch: x64
           - os: windows-latest
             platform: win32
+            arch: x64
           - os: ubuntu-latest
             platform: linux
+            arch: x64
 
     steps:
       - name: Checkout code
@@ -36,12 +42,12 @@ jobs:
         run: npm ci
 
       - name: Build Electron app
-        run: npm run make
+        run: npm run make -- --arch=${{ matrix.arch }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ matrix.platform }}
+          name: build-${{ matrix.platform }}-${{ matrix.arch }}
           path: out/make/**/*
           retention-days: 7
 
@@ -57,12 +63,13 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            build-darwin/**/*
-            build-win32/**/*
-            build-linux/**/*
+            build-darwin-arm64/**/*
+            build-darwin-x64/**/*
+            build-win32-x64/**/*
+            build-linux-x64/**/*
           name: 'CH Bridge ${{ github.event.inputs.version }}'
           tag_name: ${{ github.event.inputs.version }}
-          draft: false
+          draft: true
           prerelease: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
