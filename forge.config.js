@@ -5,7 +5,7 @@ module.exports = {
   packagerConfig: {
     asar: true,
     name: 'CH Bridge',
-    executableName: 'ch-bridge'
+    executableName: 'ch-refresh-prototype'
   },
   rebuildConfig: {},
   makers: [
