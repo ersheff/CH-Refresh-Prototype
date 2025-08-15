@@ -64,7 +64,7 @@ send=9990
 receive=9991
 
 # Server and UI
-address=https://ch-refresh-prototype-production.up.railway.app
+address=https://ch.ersheff.com
 username=
 rooms=
 buttons=0

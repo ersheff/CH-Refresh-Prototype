@@ -20,7 +20,7 @@ Common to all versions are:
 
 ### Web
 
-Simply load [https://ch-refresh-prototype-production.up.railway.app](https://ch-refresh-prototype-production.up.railway.app) in any web browser, desktop or mobile. While you cannot do much with incoming data (except for monitoring recent data), the web version still provides most or all of the user, room, chat, data, and control functionality.
+Simply load [https://ch.ersheff.com](https://ch.ersheff.com) in any web browser, desktop or mobile. While you cannot do much with incoming data (except for monitoring recent data), the web version still provides most or all of the user, room, chat, data, and control functionality.
 
 #### Parameters
 
@@ -31,7 +31,7 @@ You can set an initial configuration by modifying query parameters in the URL.
 - `buttons`, `sliders`, `toggles` - Display any number of these control types at the bottom of the window.
 
 Example:
-`https://ch-refresh-prototype-production.up.railway.app?username=fred&rooms=parlor,misfits&buttons=2&sliders=2&toggles=4`
+`https://ch.ersheff.com?username=fred&rooms=parlor,misfits&buttons=2&sliders=2&toggles=4`
 
 ### Max
 
@@ -41,7 +41,7 @@ Outgoing data is sent to the left input of `jweb`, and incoming data is received
 
 Download `test.maxpat` and open it in Max to see more.
 
-### Standalone App
+### Standalone App - CH Bridge
 
 **CH Bridge** is a standalone app that sends and receives OSC from any other OSC-enabled software on your computer (using ports `9990` and `9991` by default, respectively) and mirrors that data to the server. Again, all of the same functionality and configuration options described in the sections above are available with **CH Bridge**, though configuration is set using the "Open Config" option in the menu instead of URL query parameters.
 
@@ -53,7 +53,7 @@ send=9990
 receive=9991
 
 # Server and UI
-address=https://ch-refresh-prototype-production.up.railway.app
+address=https://ch.ersheff.com
 username=
 rooms=
 buttons=0
@@ -65,9 +65,15 @@ You can change the OSC `send` and `receive` ports if you wish, as long as they a
 
 You should NOT change the address unless you are running your own CH Refresh Prototype server, which is not supported at this time (though the procedure may be documented in the future if this prototype goes to production).
 
-To use **CH Bridge**, download it from [Releases](https://github.com/ersheff/CH-Refresh-Prototype/releases) and open the app alongside any OSC-enabled software. An example using [Pure Data](https://puredata.info), which is free, is provided in this repository. Download `test.pd` and open it in Pure Data to see more.
+To use **CH Bridge**, download the appropriate version from [Releases](https://github.com/ersheff/CH-Refresh-Prototype/releases) and open the app alongside any OSC-enabled software. An example using [Pure Data](https://puredata.info), which is free, is provided in this repository. Download `test.pd` and open it in Pure Data to see more.
 
-_**CH Bridge** has not yet been tested on Windows or Linux._
+_Until this goes into production, **Mac** users will need to remove **CH Bridge** from quarantine after downloading in order to open the app. To do so, run the following command in Terminal:_
+
+```
+xattr -cr ~/Downloads/CH\ Bridge.app
+```
+
+_**CH Bridge** is also available for **Windows** and **Linux** but has not yet been tested on those platforms._
 
 ## Protocol
 

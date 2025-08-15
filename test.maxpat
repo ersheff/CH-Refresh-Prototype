@@ -80,7 +80,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 322.0, 682.0, 353.0, 22.0 ],
-					"text" : "url https: ch-refresh-prototype-production.up.railway.app"
+					"text" : "url https: ch.ersheff.com"
 				}
 
 			}
@@ -139,8 +139,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 11.0, 43.0, 309.0, 22.0 ],
-					"text" : "url https://ch-refresh-prototype-production.up.railway.app"
+					"patching_rect" : [ 11.0, 43.0, 140.0, 22.0 ],
+					"text" : "url https://ch.ersheff.com"
 				}
 
 			}
@@ -154,7 +154,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 11.0, 139.0, 600.0, 480.0 ],
 					"rendermode" : 0,
-					"url" : "https://ch-refresh-prototype-production.up.railway.app"
+					"url" : "https://ch.ersheff.com"
 				}
 
 			}
