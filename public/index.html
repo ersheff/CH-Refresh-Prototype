@@ -38,7 +38,7 @@
   .panel-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px 20px;
+    gap: 20px 10px;
   }
 
   .panel {
@@ -47,6 +47,7 @@
     gap: 4px;
 
     h2 {
+      font-size: 1.2rem;
       margin: 0;
     }
 
@@ -99,13 +100,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
   }
 
   .controls-panel {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
 
   }
 
@@ -258,7 +259,7 @@
 
       <div class="panel window-panel">
         <h2>Data Monitor</h2>
-        <div>Latest data messages received (10)</div>
+        <div>Shows latest data messages received (10)</div>
         <div class="scroll-window" id="data-display">
           <template x-for="(data, index) in $store.ch.dataFeed" :key="index">
             <div x-text="data"></div>

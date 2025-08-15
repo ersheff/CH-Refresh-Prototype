@@ -6,6 +6,8 @@ Additionally, the messaging [protocol](#protocol) has been revised to adhere to 
 
 Both Collab Hub and this prototype aim to remove barriers for both local and remote network collaboration, regardless of physical location or the type of network used (e.g., cellular data, school or business Wi-Fi, etc.). Under the hood, messages are sent using WebSockets over the internet, which, unlike OSC, are typically not blocked by institutional network admins and do not require any additional configuration.
 
+<img src="ch-refresh-prototype-screenshot.jpg" width="510">
+
 ## Versions
 
 Although the interface and messaging protocol are identical for all versions, there are still three different ways to use this prototype.
