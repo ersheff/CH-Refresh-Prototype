@@ -19,25 +19,11 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {
-        options: {
-          maintainer: 'Eric Sheffield',
-          homepage: 'https://github.com/ersheff/CH-Refresh-Prototype',
-          description:
-            'A standalone bridge app that sends/receives OSC messages with the CH Refresh Prototype server.'
-        }
-      }
+      config: {}
     },
     {
       name: '@electron-forge/maker-rpm',
-      config: {
-        options: {
-          maintainer: 'Eric Sheffield',
-          homepage: 'https://github.com/ersheff/CH-Refresh-Prototype',
-          description:
-            'A standalone bridge app that sends/receives OSC messages with the CH Refresh Prototype server.'
-        }
-      }
+      config: {}
     }
   ],
   plugins: [
@@ -56,5 +42,18 @@ module.exports = {
       [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: true,
       [FuseV1Options.OnlyLoadAppFromAsar]: true
     })
+  ],
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'ersheff',
+          name: 'CH Bridge'
+        },
+        prerelease: false,
+        draft: true
+      }
+    }
   ]
 };

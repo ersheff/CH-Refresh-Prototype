@@ -20,7 +20,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 211.0, 69.0, 162.0, 24.0 ],
-					"presentation_linecount" : 11,
 					"text" : "outgoing message format"
 				}
 
@@ -69,7 +68,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 11.0, 682.0, 240.0, 22.0 ],
-					"text" : "title \"502 Bad Gateway\""
+					"text" : "title Document"
 				}
 
 			}

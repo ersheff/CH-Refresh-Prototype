@@ -36,7 +36,7 @@ const menuTemplate = [
             udpPort.open();
           }
           const address = config.address;
-          const { address: _, ...configParams } = config;
+          const { address: _, send, receive, ...configParams } = config;
           const queryParams = new URLSearchParams(configParams);
           const url = `${address}?${queryParams.toString()}`;
           BrowserWindow.getFocusedWindow().loadURL(url);
@@ -102,7 +102,7 @@ Menu.setApplicationMenu(menu);
 
 function createWindow() {
   const address = launchConfig.address;
-  const { address: _, ...configParams } = launchConfig;
+  const { address: _, send, receive, ...configParams } = launchConfig;
   const queryParams = new URLSearchParams(configParams);
   const url = `${address}?${queryParams.toString()}`;
 
@@ -141,6 +141,6 @@ app.whenReady().then(() => {
   }); // opens a new window on macOS when dock icon is clicked
 });
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
-}); // quits when all windows are closed on macOS
+// app.on('window-all-closed', () => {
+//   if (process.platform !== 'darwin') app.quit();
+// });

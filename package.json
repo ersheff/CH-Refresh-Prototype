@@ -1,14 +1,16 @@
 {
   "name": "ch-refresh-prototype",
+  "description": "An OSC bridge to communicate with the CH server.",
   "version": "0.0.4",
-  "main": "electron/main.js",
+  "main": "main.js",
   "scripts": {
     "start": "node server.mjs",
-    "electron": "electron .",
     "forge": "electron-forge start",
+    "electron": "electron .",
     "dev": "concurrently \"npm run start\" \"npm run electron\"",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
   "author": "Eric Sheffield",
   "license": "TBD",
@@ -20,6 +22,7 @@
     "@electron-forge/maker-zip": "^7.8.3",
     "@electron-forge/plugin-auto-unpack-natives": "^7.8.3",
     "@electron-forge/plugin-fuses": "^7.8.3",
+    "@electron-forge/publisher-github": "^7.8.3",
     "@electron/fuses": "^1.8.0",
     "concurrently": "^9.2.0",
     "electron": "^37.2.4"
