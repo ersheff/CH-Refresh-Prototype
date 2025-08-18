@@ -69,7 +69,7 @@ You should NOT change the address unless you are running your own CH Refresh Pro
 
 To use **CH Bridge**, download the appropriate version from [Releases](https://github.com/ersheff/CH-Refresh-Prototype/releases) and open the app alongside any OSC-enabled software. An example using [Pure Data](https://puredata.info), which is free, is provided in this repository. Download `test.pd` and open it in Pure Data to see more.
 
-_Until this goes into production, **Mac** users will need to remove **CH Bridge** from quarantine after downloading in order to open the app. To do so, run the following command in Terminal:_
+_For the time being, **Mac** users will need to remove **CH Bridge** from quarantine after downloading in order to open the app. To do so, run the following command in Terminal:_
 
 ```
 xattr -cr ~/Downloads/CH\ Bridge.app
